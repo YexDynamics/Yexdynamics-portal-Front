@@ -1,0 +1,42 @@
+<div style="max-width: 500px; margin: 40px auto; font-family: sans-serif;">
+  <h2>YexDynamics - Leaderboard</h2>
+
+  <div style="background: #f4f4f9; padding: 20px; border-radius: 8px;">
+    <h3>Registrar Puntaje</h3>
+    <div style="margin-bottom: 10px;">
+      <label>Nickname: </label>
+      <input type="text" [(ngModel)]="newScore.nickname" placeholder="Ej: Player1" style="width: 100%; padding: 8px; box-sizing: border-box;">
+    </div>
+    <div style="margin-bottom: 10px;">
+      <label>Puntaje: </label>
+      <input type="number" [(ngModel)]="newScore.scoreValue" placeholder="1000" style="width: 100%; padding: 8px; box-sizing: border-box;">
+    </div>
+    <button (click)="guardarPuntaje()" style="background: #007bff; color: white; padding: 10px 15px; border: none; cursor: pointer;">
+      Guardar
+    </button>
+    <p *ngIf="message" style="margin-top: 10px; font-weight: bold;">{{ message }}</p>
+  </div>
+
+  <hr style="margin: 30px 0;">
+
+  <div>
+    <h3>Top Scores</h3>
+    <table border="1" cellpadding="8" style="width: 100%; border-collapse: collapse; text-align: left;">
+      <thead>
+        <tr style="background: #eee;">
+          <th>Jugador</th>
+          <th>Puntaje</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let item of scores">
+          <td>{{ item.nickname }}</td>
+          <td><b>{{ item.scoreValue }}</b></td>
+        </tr>
+        <tr *ngIf="!scores || scores.length === 0">
+          <td colspan="2" style="text-align: center;">Sin puntajes aún</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
