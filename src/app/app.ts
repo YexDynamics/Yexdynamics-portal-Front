@@ -1,10 +1,10 @@
 import { Component } from '@angular/core';
-import { LeaderboardComponent } from './components/leaderboard/leaderboard';
+import { RouterOutlet } from '@angular/router';
 
 @Component({
   selector: 'app-root',
   standalone: true,
-  imports: [LeaderboardComponent],
+  imports: [RouterOutlet],
   templateUrl: './app.html',
   styleUrl: './app.css'
 })

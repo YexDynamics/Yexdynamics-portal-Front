@@ -1,0 +1,102 @@
+.leaderboard-container {
+  max-width: 550px;
+  margin: 40px auto;
+  font-family: system-ui, -apple-system, sans-serif;
+  color: #333;
+}
+
+.btn-back {
+  background: #6c757d;
+  color: white;
+  border: none;
+  padding: 8px 14px;
+  border-radius: 4px;
+  cursor: pointer;
+  margin-bottom: 20px;
+  font-size: 0.9rem;
+}
+
+.btn-back:hover {
+  background: #5a6268;
+}
+
+.score-card {
+  background: #f4f4f9;
+  padding: 20px;
+  border-radius: 8px;
+  border: 1px solid #e0e0e0;
+}
+
+.score-card h3 {
+  margin-top: 0;
+  margin-bottom: 15px;
+}
+
+.form-group {
+  margin-bottom: 12px;
+}
+
+.form-group label {
+  display: block;
+  margin-bottom: 4px;
+  font-weight: 500;
+}
+
+.form-group input {
+  width: 100%;
+  padding: 8px;
+  box-sizing: border-box;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+}
+
+.btn-submit {
+  background: #007bff;
+  color: white;
+  padding: 10px 15px;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  font-weight: bold;
+  width: 100%;
+}
+
+.btn-submit:hover {
+  background: #0069d9;
+}
+
+.feedback-msg {
+  margin-top: 10px;
+  font-weight: bold;
+  color: #28a745;
+  text-align: center;
+}
+
+.divider {
+  margin: 30px 0;
+  border: 0;
+  border-top: 1px solid #eee;
+}
+
+.scores-table {
+  width: 100%;
+  border-collapse: collapse;
+  text-align: left;
+  border: 1px solid #ddd;
+}
+
+.scores-table th, 
+.scores-table td {
+  padding: 10px;
+  border: 1px solid #ddd;
+}
+
+.scores-table thead tr {
+  background: #f8f9fa;
+}
+
+.empty-msg {
+  text-align: center;
+  color: #777;
+  padding: 15px;
+}

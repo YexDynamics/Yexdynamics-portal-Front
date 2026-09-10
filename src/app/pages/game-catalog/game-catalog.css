@@ -1,0 +1,115 @@
+.catalog-container {
+  max-width: 550px;
+  margin: 40px auto;
+  font-family: system-ui, -apple-system, sans-serif;
+  color: #333;
+}
+
+.catalog-container h2 {
+  margin-bottom: 4px;
+}
+
+.subtitle {
+  color: #666;
+  margin-top: 0;
+  margin-bottom: 25px;
+  font-size: 0.95rem;
+}
+
+.card-box {
+  background: #f4f4f9;
+  padding: 20px;
+  border-radius: 8px;
+  border: 1px solid #e0e0e0;
+}
+
+.card-box h3 {
+  margin-top: 0;
+  margin-bottom: 15px;
+}
+
+.form-group {
+  margin-bottom: 12px;
+}
+
+.form-group label {
+  display: block;
+  margin-bottom: 4px;
+  font-weight: 500;
+}
+
+.form-group input {
+  width: 100%;
+  padding: 8px;
+  box-sizing: border-box;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+}
+
+.btn-primary {
+  background: #007bff;
+  color: white;
+  padding: 10px 15px;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  font-weight: bold;
+  width: 100%;
+}
+
+.btn-primary:hover {
+  background: #0069d9;
+}
+
+.divider {
+  margin: 30px 0;
+  border: 0;
+  border-top: 1px solid #eee;
+}
+
+.games-list {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.game-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 15px;
+  border: 1px solid #ddd;
+  border-radius: 6px;
+  background: #fff;
+}
+
+.game-info h4 {
+  margin: 0 0 4px 0;
+}
+
+.game-info p {
+  margin: 0;
+  color: #666;
+  font-size: 0.85rem;
+}
+
+.btn-secondary {
+  background: #28a745;
+  color: white;
+  padding: 8px 12px;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  font-weight: bold;
+  white-space: nowrap;
+}
+
+.btn-secondary:hover {
+  background: #218838;
+}
+
+.empty-msg {
+  text-align: center;
+  color: #777;
+  padding: 15px;
+}

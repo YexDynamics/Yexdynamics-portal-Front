@@ -1,0 +1,12 @@
+<div class="card">
+  <img [src]="game.coverImageUrl || 'assets/placeholder.png'" [alt]="game.title" class="card-img" />
+  <div class="card-body">
+    <div class="card-header">
+      <h3>{{ game.title }}</h3>
+      <app-badge *ngIf="game.genre" [text]="game.genre"></app-badge>
+    </div>
+    <p class="dev-name">por {{ game.developerName || 'Anónimo' }}</p>
+    <p class="description">{{ game.description }}</p>
+    <a *ngIf="game.downloadUrl" [href]="game.downloadUrl" target="_blank" class="btn-play">Jugar / Descargar</a>
+  </div>
+</div>

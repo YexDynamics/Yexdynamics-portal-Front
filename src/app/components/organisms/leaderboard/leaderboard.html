@@ -1,0 +1,66 @@
+<div class="leaderboard-container">
+  <button type="button" class="btn-back" (click)="goBack()">← Volver al inicio</button>
+
+  <h2>YexDynamics - Leaderboard: {{ currentGame?.title || 'Cargando...' }}</h2>
+
+  <div class="score-card">
+    <h3>Registrar Nuevo Puntaje</h3>
+    <form (ngSubmit)="submitScore()">
+      <div class="form-group">
+        <label for="nickname">Nickname:</label>
+        <input 
+          id="nickname" 
+          type="text" 
+          [(ngModel)]="nickname" 
+          name="nickname" 
+          required 
+          placeholder="Ej: Player1" 
+        />
+      </div>
+
+      <div class="form-group">
+        <label for="score">Puntaje:</label>
+        <input 
+          id="score" 
+          type="number" 
+          [(ngModel)]="scoreValue" 
+          name="scoreValue" 
+          required 
+          placeholder="1000"
+        />
+      </div>
+
+      <button type="submit" class="btn-submit" [disabled]="isSubmitting">
+        {{ isSubmitting ? 'Guardando...' : 'Guardar Puntaje' }}
+      </button>
+      <p *ngIf="message" class="feedback-msg">{{ message }}</p>
+    </form>
+  </div>
+
+  <hr class="divider" />
+
+  <div class="table-section">
+    <h3>Top Mejores Puntajes</h3>
+    <table class="scores-table">
+      <thead>
+        <tr>
+          <th>#</th>
+          <th>Jugador</th>
+          <th>Puntaje</th>
+          <th>Fecha</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let score of scores; let i = index">
+          <td>{{ i + 1 }}</td>
+          <td>{{ score.nickname }}</td>
+          <td><b>{{ score.scoreValue }}</b></td>
+          <td>{{ score.achievedAt | date:'short' }}</td>
+        </tr>
+        <tr *ngIf="!scores || scores.length === 0">
+          <td colspan="4" class="empty-msg">Aún no hay puntajes registrados para este juego.</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>

@@ -1,0 +1,53 @@
+<div class="catalog-container">
+  <h2>Portal Indie</h2>
+  <p class="subtitle">Descubre juegos independientes, compite con la comunidad y demuestra tu puntuación.</p>
+
+  <div class="card-box">
+    <h3>Registrar Nuevo Juego</h3>
+    <form (ngSubmit)="crearJuego()">
+      <div class="form-group">
+        <label for="title">Título del Juego:</label>
+        <input 
+          id="title" 
+          type="text" 
+          [(ngModel)]="newGame.title" 
+          name="title" 
+          required 
+          placeholder="Ej: PuntoBall" 
+        />
+      </div>
+
+      <div class="form-group">
+        <label for="description">Descripción:</label>
+        <input 
+          id="description" 
+          type="text" 
+          [(ngModel)]="newGame.description" 
+          name="description" 
+          placeholder="Ej: Juego de esquivar obstáculos..." 
+        />
+      </div>
+
+      <button type="submit" class="btn-primary" [disabled]="isSubmitting">
+        {{ isSubmitting ? 'Creando...' : 'Crear Juego' }}
+      </button>
+    </form>
+  </div>
+
+  <hr class="divider" />
+
+  <h3>Catálogo de Juegos</h3>
+  <div class="games-list">
+    <div class="game-item" *ngFor="let game of games">
+      <div class="game-info">
+        <h4>{{ game.title }}</h4>
+        <p>{{ game.description || 'Sin descripción disponible.' }}</p>
+      </div>
+      <button type="button" class="btn-secondary" (click)="goToLeaderboard(game.id)">
+        Ver Leaderboard 🏆
+      </button>
+    </div>
+
+    <p *ngIf="games.length === 0" class="empty-msg">No hay juegos registrados en este momento.</p>
+  </div>
+</div>
