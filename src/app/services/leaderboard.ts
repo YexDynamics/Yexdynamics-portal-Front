@@ -21,7 +21,7 @@ export interface LeaderboardResponseDTO {
   providedIn: 'root'
 })
 export class LeaderboardService {
-  private apiUrl = 'http://localhost:8080/api/v1/leaderboard';
+  private readonly apiUrl = 'http://localhost:8080/api/v1/leaderboard';
 
   constructor(private http: HttpClient) {}
 

@@ -1,7 +1,8 @@
-import { Component, OnInit, OnDestroy } from '@angular/core';
+import { Component, OnInit, OnDestroy, ChangeDetectorRef } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
+import { finalize } from 'rxjs/operators';
 import { LeaderboardService, LeaderboardResponseDTO, LeaderboardDTO } from '../../../services/leaderboard';
 import { GameService } from '../../../services/game';
 import { Game } from '../../../models/game';
@@ -29,7 +30,8 @@ export class LeaderboardComponent implements OnInit, OnDestroy {
     private route: ActivatedRoute,
     private router: Router,
     private leaderboardService: LeaderboardService,
-    private gameService: GameService
+    private gameService: GameService,
+    private cdr: ChangeDetectorRef
   ) {}
 
   ngOnInit(): void {
@@ -49,8 +51,11 @@ export class LeaderboardComponent implements OnInit, OnDestroy {
 
   loadGameDetails(): void {
     this.gameService.getGameById(this.gameId).subscribe({
-      next: (game: Game) => (this.currentGame = game),
-      error: (err: unknown) => console.error(err)
+      next: (game: Game) => {
+        this.currentGame = game;
+        this.cdr.detectChanges();
+      },
+      error: (err: unknown) => console.error('Error al cargar detalle del juego:', err)
     });
   }
 
@@ -58,8 +63,9 @@ export class LeaderboardComponent implements OnInit, OnDestroy {
     this.leaderboardService.getScoresByGame(this.gameId).subscribe({
       next: (data: LeaderboardResponseDTO[]) => {
         this.scores = data.sort((a, b) => b.scoreValue - a.scoreValue);
+        this.cdr.detectChanges();
       },
-      error: (err: unknown) => console.error(err)
+      error: (err: unknown) => console.error('Error al cargar puntajes:', err)
     });
   }
 
@@ -81,22 +87,31 @@ export class LeaderboardComponent implements OnInit, OnDestroy {
       scoreValue: this.scoreValue
     };
 
-    this.leaderboardService.saveScore(payload).subscribe({
-      next: () => {
-        this.message = '¡Puntaje guardado con éxito!';
-        this.loadScores();
-        this.nickname = '';
-        this.scoreValue = 0;
-        this.isSubmitting = false;
+    this.leaderboardService.saveScore(payload)
+      .pipe(
+        finalize(() => {
+          this.isSubmitting = false;
+          this.cdr.detectChanges();
+        })
+      )
+      .subscribe({
+        next: () => {
+          this.message = '¡Puntaje guardado con éxito!';
+          this.loadScores();
+          this.nickname = '';
+          this.scoreValue = 0;
 
-        this.timeoutId = setTimeout(() => (this.message = ''), 3000);
-      },
-      error: (err: unknown) => {
-        console.error(err);
-        this.message = 'Error al guardar el puntaje.';
-        this.isSubmitting = false;
-      }
-    });
+          if (this.timeoutId) clearTimeout(this.timeoutId);
+          this.timeoutId = setTimeout(() => {
+            this.message = '';
+            this.cdr.detectChanges();
+          }, 3000);
+        },
+        error: (err: unknown) => {
+          console.error('Error al guardar puntaje:', err);
+          this.message = 'Error al guardar el puntaje.';
+        }
+      });
   }
 
   goBack(): void {

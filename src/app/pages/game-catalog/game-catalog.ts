@@ -1,7 +1,8 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ChangeDetectorRef } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { Router } from '@angular/router';
+import { finalize } from 'rxjs/operators';
 import { GameService } from '../../services/game';
 import { Game, CreateGame } from '../../models/game';
 
@@ -23,7 +24,8 @@ export class GameCatalogComponent implements OnInit {
 
   constructor(
     private gameService: GameService,
-    private router: Router
+    private router: Router,
+    private cdr: ChangeDetectorRef
   ) {}
 
   ngOnInit(): void {
@@ -32,8 +34,11 @@ export class GameCatalogComponent implements OnInit {
 
   cargarJuegos(): void {
     this.gameService.getAllGames().subscribe({
-      next: (data: Game[]) => (this.games = data),
-      error: (err: unknown) => console.error(err)
+      next: (data: Game[]) => {
+        this.games = data;
+        this.cdr.detectChanges();
+      },
+      error: (err: unknown) => console.error('Error al cargar catálogo:', err)
     });
   }
 
@@ -45,17 +50,20 @@ export class GameCatalogComponent implements OnInit {
 
     this.isSubmitting = true;
 
-    this.gameService.createGame({ ...this.newGame, title: cleanTitle }).subscribe({
-      next: () => {
-        this.cargarJuegos();
-        this.newGame = { title: '', description: '' };
-        this.isSubmitting = false;
-      },
-      error: (err: unknown) => {
-        console.error(err);
-        this.isSubmitting = false;
-      }
-    });
+    this.gameService.createGame({ ...this.newGame, title: cleanTitle })
+      .pipe(
+        finalize(() => {
+          this.isSubmitting = false;
+          this.cdr.detectChanges();
+        })
+      )
+      .subscribe({
+        next: () => {
+          this.newGame = { title: '', description: '' };
+          this.cargarJuegos();
+        },
+        error: (err: unknown) => console.error('Error al crear juego:', err)
+      });
   }
 
   goToLeaderboard(gameId: number): void {
