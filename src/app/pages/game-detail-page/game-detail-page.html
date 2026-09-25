@@ -1,0 +1,20 @@
+<app-game-detail-template>
+  <div slot="info">
+    @if (loading()) {
+      <app-spinner label="Cargando juego" />
+    } @else if (notFound()) {
+      <app-alert variant="error">El juego solicitado no existe o fue deshabilitado.</app-alert>
+    } @else if (error(); as message) {
+      <app-alert variant="error">{{ message }}</app-alert>
+      <app-button (clicked)="retry()">Reintentar</app-button>
+    } @else if (game(); as g) {
+      <app-game-detail-panel [game]="g" />
+    }
+  </div>
+
+  @if (game(); as g) {
+    <div slot="leaderboard">
+      <app-leaderboard [gameId]="g.id" [gameTitle]="g.title" />
+    </div>
+  }
+</app-game-detail-template>

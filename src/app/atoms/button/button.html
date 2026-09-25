@@ -1,0 +1,10 @@
+<button
+  [class]="classes()"
+  [attr.type]="type()"
+  [disabled]="disabled() || loading()"
+  [attr.aria-label]="accessibleLabel()"
+  [attr.aria-busy]="loading()"
+  (click)="clicked.emit()"
+>
+  <ng-content />
+</button>

@@ -1,0 +1,11 @@
+<textarea
+  class="textarea"
+  [id]="inputId()"
+  [placeholder]="placeholder()"
+  [attr.maxlength]="maxLength()"
+  [rows]="rows()"
+  [value]="value()"
+  [disabled]="disabled()"
+  (input)="handleInput($event)"
+  (blur)="handleBlur()"
+></textarea>

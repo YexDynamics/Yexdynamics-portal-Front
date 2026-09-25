@@ -1,0 +1,41 @@
+<app-games-template title="YexDynamics - Juegos">
+  <app-button slot="actions" (clicked)="openCreateForm()">Nuevo juego</app-button>
+
+  <div slot="feedback">
+    @if (feedback(); as message) {
+      <app-alert [variant]="message.type" dismissible (dismissed)="dismissFeedback()">{{ message.text }}</app-alert>
+    }
+  </div>
+
+  <app-game-list
+    [games]="sortedGames()"
+    [loading]="loading()"
+    [error]="loadError()"
+    (editRequested)="openEditForm($event)"
+    (disableRequested)="requestDisable($event)"
+    (retryRequested)="loadGames()"
+  />
+
+  @if (formOpen()) {
+    <app-modal [title]="formTitle()" [locked]="saving()" (closed)="closeForm()">
+      <app-game-form
+        [game]="editingGame()"
+        [saving]="saving()"
+        [serverError]="formError()"
+        (submitted)="saveGame($event)"
+        (cancelled)="closeForm()"
+      />
+    </app-modal>
+  }
+
+  @if (gameToDisable()) {
+    <app-confirm-dialog
+      title="Deshabilitar juego"
+      confirmLabel="Deshabilitar"
+      [message]="disableMessage()"
+      [confirming]="disabling()"
+      (confirmed)="confirmDisable()"
+      (cancelled)="cancelDisable()"
+    />
+  }
+</app-games-template>

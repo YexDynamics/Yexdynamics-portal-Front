@@ -1,0 +1,39 @@
+<article class="detail">
+  @if (showCover()) {
+    <img
+      class="detail__cover"
+      [src]="game().coverImageUrl"
+      [alt]="'Portada de ' + game().title"
+      (error)="onCoverError()"
+    >
+  } @else {
+    <div class="detail__cover detail__cover--placeholder">Sin portada</div>
+  }
+
+  <div class="detail__body">
+    <h2 class="detail__title">{{ game().title }}</h2>
+
+    @if (game().genre || game().version) {
+      <p class="detail__meta">
+        @if (game().genre) {
+          <span>{{ game().genre }}</span>
+        }
+        @if (game().version) {
+          <span>v{{ game().version }}</span>
+        }
+      </p>
+    }
+
+    @if (game().developerName) {
+      <p class="detail__developer">Por {{ game().developerName }}</p>
+    }
+
+    @if (game().description) {
+      <p class="detail__description">{{ game().description }}</p>
+    }
+
+    @if (game().downloadUrl) {
+      <a class="detail__link" [href]="game().downloadUrl" target="_blank" rel="noopener noreferrer">Jugar / Descargar</a>
+    }
+  </div>
+</article>

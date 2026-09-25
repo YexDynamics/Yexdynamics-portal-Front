@@ -1,0 +1,12 @@
+<input
+  class="input"
+  [id]="inputId()"
+  [type]="type()"
+  [placeholder]="placeholder()"
+  [attr.maxlength]="maxLength()"
+  [attr.autofocus]="autofocus() ? '' : null"
+  [value]="value()"
+  [disabled]="disabled()"
+  (input)="handleInput($event)"
+  (blur)="handleBlur()"
+>

@@ -1,0 +1,24 @@
+.navbar {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+  padding: 12px 20px;
+  background: var(--color-surface);
+}
+
+.navbar__brand {
+  font-weight: bold;
+}
+
+.navbar__link {
+  color: var(--color-primary);
+  text-decoration: none;
+}
+
+.navbar__link:hover {
+  text-decoration: underline;
+}
+
+.navbar__link--active {
+  font-weight: bold;
+}

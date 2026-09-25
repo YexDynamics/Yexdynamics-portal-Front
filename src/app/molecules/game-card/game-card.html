@@ -1,0 +1,48 @@
+<article class="card">
+  <a class="card__preview" [routerLink]="['/games', game().id]" [attr.aria-label]="'Ver detalle de ' + game().title">
+    @if (showCover()) {
+      <img
+        class="card__cover"
+        [src]="game().coverImageUrl"
+        [alt]="'Portada de ' + game().title"
+        loading="lazy"
+        (error)="onCoverError()"
+      >
+    } @else {
+      <div class="card__cover card__cover--placeholder">Sin portada</div>
+    }
+    <h3 class="card__title">{{ game().title }}</h3>
+  </a>
+
+  <div class="card__body">
+    @if (game().genre || game().version) {
+      <p class="card__meta">
+        @if (game().genre) {
+          <span>{{ game().genre }}</span>
+        }
+        @if (game().version) {
+          <span>v{{ game().version }}</span>
+        }
+      </p>
+    }
+
+    @if (game().developerName) {
+      <p class="card__developer">Por {{ game().developerName }}</p>
+    }
+
+    @if (game().description) {
+      <p class="card__description">{{ game().description }}</p>
+    }
+
+    @if (game().downloadUrl) {
+      <a class="card__link" [href]="game().downloadUrl" target="_blank" rel="noopener noreferrer">Jugar / Descargar</a>
+    }
+  </div>
+
+  @if (showActions()) {
+    <footer class="card__actions">
+      <app-button variant="secondary" size="sm" (clicked)="editRequested.emit(game())">Editar</app-button>
+      <app-button variant="danger" size="sm" (clicked)="disableRequested.emit(game())">Deshabilitar</app-button>
+    </footer>
+  }
+</article>
