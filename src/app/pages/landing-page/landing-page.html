@@ -7,4 +7,18 @@
 
   <h2 class="landing-page__heading">Catálogo de juegos</h2>
   <app-game-list [games]="games()" [loading]="loading()" [error]="error()" [showActions]="false" (retryRequested)="loadGames()" />
+
+  <section class="landing-page__external">
+    <div class="landing-page__external-header">
+      <h2 class="landing-page__heading">Descubre Indies Populares del Mundo</h2>
+      <a class="landing-page__cta" routerLink="/external-games">Ver más juegos</a>
+    </div>
+    <app-external-game-list
+      [games]="externalGames()"
+      [loading]="externalLoading()"
+      [error]="externalError()"
+      [compact]="true"
+      (retryRequested)="loadExternalGames()"
+    />
+  </section>
 </app-landing-template>

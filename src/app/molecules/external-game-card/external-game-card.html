@@ -1,0 +1,24 @@
+<a class="ext-card" [routerLink]="['/external-games', game().id]" [attr.aria-label]="'Ver detalle de ' + game().title">
+  @if (showCover()) {
+    <img
+      class="ext-card__cover"
+      [src]="game().coverImageUrl"
+      [alt]="'Portada de ' + game().title"
+      loading="lazy"
+      (error)="onCoverError()"
+    >
+  } @else {
+    <div class="ext-card__cover ext-card__cover--placeholder">Sin portada</div>
+  }
+
+  @if (game().rating) {
+    <span class="ext-card__rating">&#9733; {{ game().rating }}</span>
+  }
+
+  <div class="ext-card__body">
+    <h3 class="ext-card__title">{{ game().title }}</h3>
+    @if (genresLabel()) {
+      <p class="ext-card__genres">{{ genresLabel() }}</p>
+    }
+  </div>
+</a>
