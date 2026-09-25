@@ -1,0 +1,15 @@
+.external-game-detail-template {
+  max-width: 900px;
+  margin: 40px auto;
+}
+
+.external-game-detail-template__back {
+  display: inline-block;
+  margin-bottom: 20px;
+  color: var(--color-primary);
+  text-decoration: none;
+}
+
+.external-game-detail-template__back:hover {
+  text-decoration: underline;
+}

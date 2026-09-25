@@ -1,0 +1,8 @@
+<app-games-template title="Descubrir">
+  <app-external-game-list
+    [games]="games()"
+    [loading]="loading()"
+    [error]="error()"
+    (retryRequested)="loadGames()"
+  />
+</app-games-template>
