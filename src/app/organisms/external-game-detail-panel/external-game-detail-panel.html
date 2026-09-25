@@ -1,0 +1,58 @@
+<article class="ext-detail">
+  @if (showCover()) {
+    <img
+      class="ext-detail__cover"
+      [src]="game().coverImageUrl"
+      [alt]="'Portada de ' + game().title"
+      (error)="onCoverError()"
+    >
+  } @else {
+    <div class="ext-detail__cover ext-detail__cover--placeholder">Sin portada</div>
+  }
+
+  <div class="ext-detail__body">
+    <h2 class="ext-detail__title">{{ game().title }}</h2>
+
+    <p class="ext-detail__meta">
+      @if (game().rating) {
+        <span>&#9733; {{ game().rating }}</span>
+      }
+      @if (game().releaseDate) {
+        <span>{{ game().releaseDate }}</span>
+      }
+      @if (game().esrbRating) {
+        <span>{{ game().esrbRating }}</span>
+      }
+    </p>
+
+    @if (game().genres.length > 0) {
+      <div class="ext-detail__tags">
+        @for (genre of game().genres; track genre) {
+          <span class="ext-detail__tag">{{ genre }}</span>
+        }
+      </div>
+    }
+
+    @if (game().platforms.length > 0) {
+      <div class="ext-detail__tags">
+        @for (platform of game().platforms; track platform) {
+          <span class="ext-detail__tag ext-detail__tag--platform">{{ platform }}</span>
+        }
+      </div>
+    }
+
+    @if (game().description) {
+      <p class="ext-detail__description">{{ game().description }}</p>
+    }
+
+    @if (storeLinks().length > 0) {
+      <div class="ext-detail__stores">
+        @for (store of storeLinks(); track store.url) {
+          <a class="ext-detail__store-link" [href]="store.url" target="_blank" rel="noopener noreferrer">
+            Ver en {{ store.label }}
+          </a>
+        }
+      </div>
+    }
+  </div>
+</article>

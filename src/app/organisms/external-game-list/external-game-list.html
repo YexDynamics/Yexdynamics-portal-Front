@@ -1,0 +1,18 @@
+@if (loading()) {
+  <div class="external-game-list__state">
+    <app-spinner label="Cargando indies externos" />
+  </div>
+} @else if (error(); as message) {
+  <div class="external-game-list__state">
+    <app-alert variant="error">{{ message }}</app-alert>
+    <app-button (clicked)="retryRequested.emit()">Reintentar</app-button>
+  </div>
+} @else if (games().length === 0) {
+  <p class="external-game-list__state">No encontramos indies externos por ahora</p>
+} @else {
+  <div class="external-game-list__grid" [class.external-game-list__grid--compact]="compact()">
+    @for (game of games(); track game.id) {
+      <app-external-game-card [game]="game" />
+    }
+  </div>
+}

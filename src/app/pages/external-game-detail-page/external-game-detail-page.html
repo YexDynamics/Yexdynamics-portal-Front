@@ -1,0 +1,12 @@
+<app-external-game-detail-template>
+  @if (loading()) {
+    <app-spinner label="Cargando juego" />
+  } @else if (notFound()) {
+    <app-alert variant="error">El juego solicitado no existe en RAWG.</app-alert>
+  } @else if (error(); as message) {
+    <app-alert variant="error">{{ message }}</app-alert>
+    <app-button (clicked)="retry()">Reintentar</app-button>
+  } @else if (game(); as g) {
+    <app-external-game-detail-panel [game]="g" />
+  }
+</app-external-game-detail-template>

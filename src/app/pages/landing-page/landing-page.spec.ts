@@ -3,6 +3,7 @@ import { provideZonelessChangeDetection } from '@angular/core';
 import { provideRouter } from '@angular/router';
 import { HttpErrorResponse } from '@angular/common/http';
 import { Observable, of, throwError } from 'rxjs';
+import { ExternalGameResponseDTO, ExternalGameService } from '../../services/external-game';
 import { GameDTO, GameService } from '../../services/game';
 import { LandingPageComponent } from './landing-page';
 
@@ -18,6 +19,16 @@ const buildGame = (id: number, title: string): GameDTO => ({
   createdAt: '2026-09-10T15:30:00'
 });
 
+const buildExternalGame = (id: number, title: string): ExternalGameResponseDTO => ({
+  id,
+  title,
+  releaseDate: '2017-02-24',
+  coverImageUrl: null,
+  rating: 4.4,
+  genres: ['Action'],
+  platforms: ['PC']
+});
+
 class GameServiceStub {
   getGamesResult: Observable<GameDTO[]> = of([buildGame(1, 'PuntoBall'), buildGame(2, 'Astro Dash')]);
 
@@ -26,9 +37,23 @@ class GameServiceStub {
   }
 }
 
+class ExternalGameServiceStub {
+  getPopularIndieGamesResult: Observable<ExternalGameResponseDTO[]> = of([
+    buildExternalGame(1, 'Hollow Knight'),
+    buildExternalGame(2, 'Celeste')
+  ]);
+  requestedLimit: number | null = null;
+
+  getPopularIndieGames(limit: number): Observable<ExternalGameResponseDTO[]> {
+    this.requestedLimit = limit;
+    return this.getPopularIndieGamesResult;
+  }
+}
+
 describe('LandingPageComponent', () => {
   let fixture: ComponentFixture<LandingPageComponent>;
-  let service: GameServiceStub;
+  let gameService: GameServiceStub;
+  let externalGameService: ExternalGameServiceStub;
 
   const element = (): HTMLElement => fixture.nativeElement;
 
@@ -40,10 +65,16 @@ describe('LandingPageComponent', () => {
   };
 
   beforeEach(async () => {
-    service = new GameServiceStub();
+    gameService = new GameServiceStub();
+    externalGameService = new ExternalGameServiceStub();
     await TestBed.configureTestingModule({
       imports: [LandingPageComponent],
-      providers: [provideZonelessChangeDetection(), provideRouter([]), { provide: GameService, useValue: service }]
+      providers: [
+        provideZonelessChangeDetection(),
+        provideRouter([]),
+        { provide: GameService, useValue: gameService },
+        { provide: ExternalGameService, useValue: externalGameService }
+      ]
     }).compileComponents();
   });
 
@@ -61,9 +92,24 @@ describe('LandingPageComponent', () => {
   });
 
   it('should show a connection error with retry', async () => {
-    service.getGamesResult = throwError(() => new HttpErrorResponse({ status: 0 }));
+    gameService.getGamesResult = throwError(() => new HttpErrorResponse({ status: 0 }));
     await create();
 
     expect(element().querySelector('app-alert')?.textContent).toContain('No se pudo conectar');
+  });
+
+  it('should request only 8 external games and render them compact', async () => {
+    await create();
+
+    expect(externalGameService.requestedLimit).toBe(8);
+    expect(element().querySelectorAll('.ext-card__title').length).toBe(2);
+    expect(element().querySelector('.external-game-list__grid--compact')).toBeTruthy();
+  });
+
+  it('should link to the extended external catalog', async () => {
+    await create();
+
+    const cta = element().querySelector('.landing-page__cta')!;
+    expect(cta.getAttribute('href')).toBe('/external-games');
   });
 });
