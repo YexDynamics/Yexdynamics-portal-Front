@@ -1,0 +1,68 @@
+<form class="game-form" [formGroup]="form" (ngSubmit)="onSubmit()">
+  <fieldset class="game-form__fieldset" [disabled]="saving()">
+    <app-form-field label="Título" controlId="game-title" [required]="true" [error]="errorFor('title')">
+      <app-text-input
+        inputId="game-title"
+        formControlName="title"
+        placeholder="Ej: PuntoBall"
+        [maxLength]="100"
+        [autofocus]="true"
+      />
+    </app-form-field>
+
+    <app-form-field label="Descripción" controlId="game-description" [error]="errorFor('description')">
+      <app-textarea
+        inputId="game-description"
+        formControlName="description"
+        placeholder="Un dinámico juego arcade de físicas y rebotes."
+        [maxLength]="500"
+      />
+    </app-form-field>
+
+    <app-form-field label="Versión" controlId="game-version" [error]="errorFor('version')">
+      <app-text-input inputId="game-version" formControlName="version" placeholder="1.0.0" [maxLength]="20" />
+    </app-form-field>
+
+    <app-form-field label="Género" controlId="game-genre" [error]="errorFor('genre')">
+      <app-text-input inputId="game-genre" formControlName="genre" placeholder="Ej: Arcade" [maxLength]="50" />
+    </app-form-field>
+
+    <app-form-field label="Desarrollador" controlId="game-developer" [error]="errorFor('developerName')">
+      <app-text-input
+        inputId="game-developer"
+        formControlName="developerName"
+        placeholder="Ej: YexDynamics"
+        [maxLength]="100"
+      />
+    </app-form-field>
+
+    <app-form-field label="URL de portada" controlId="game-cover" [error]="errorFor('coverImageUrl')">
+      <app-text-input
+        inputId="game-cover"
+        type="url"
+        formControlName="coverImageUrl"
+        placeholder="https://example.com/images/puntoball.png"
+        [maxLength]="500"
+      />
+    </app-form-field>
+
+    <app-form-field label="URL de descarga" controlId="game-download" [error]="errorFor('downloadUrl')">
+      <app-text-input
+        inputId="game-download"
+        type="url"
+        formControlName="downloadUrl"
+        placeholder="https://example.com/games/puntoball"
+        [maxLength]="500"
+      />
+    </app-form-field>
+  </fieldset>
+
+  @if (serverError(); as message) {
+    <app-alert variant="error">{{ message }}</app-alert>
+  }
+
+  <div class="game-form__actions">
+    <app-button variant="secondary" [disabled]="saving()" (clicked)="cancelled.emit()">Cancelar</app-button>
+    <app-button type="submit" [loading]="saving()">{{ submitLabel() }}</app-button>
+  </div>
+</form>

@@ -1,0 +1,7 @@
+<app-modal [title]="title()" [locked]="confirming()" (closed)="cancelled.emit()">
+  <p class="confirm__message">{{ message() }}</p>
+  <div class="confirm__actions">
+    <app-button variant="secondary" [disabled]="confirming()" (clicked)="cancelled.emit()">Cancelar</app-button>
+    <app-button variant="danger" [loading]="confirming()" (clicked)="confirmed.emit()">{{ confirmLabel() }}</app-button>
+  </div>
+</app-modal>

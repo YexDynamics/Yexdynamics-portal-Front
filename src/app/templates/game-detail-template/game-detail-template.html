@@ -1,0 +1,9 @@
+<div class="game-detail-template">
+  <a class="game-detail-template__back" routerLink="/">&larr; Volver al catálogo</a>
+  <section class="game-detail-template__info">
+    <ng-content select="[slot=info]" />
+  </section>
+  <section class="game-detail-template__leaderboard">
+    <ng-content select="[slot=leaderboard]" />
+  </section>
+</div>

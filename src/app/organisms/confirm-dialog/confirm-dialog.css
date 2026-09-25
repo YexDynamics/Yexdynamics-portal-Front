@@ -1,0 +1,10 @@
+.confirm__message {
+  margin: 0 0 20px;
+  overflow-wrap: anywhere;
+}
+
+.confirm__actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 10px;
+}

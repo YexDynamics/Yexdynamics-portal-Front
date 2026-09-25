@@ -1,0 +1,12 @@
+<div class="field">
+  <label class="field__label" [attr.for]="controlId()">
+    {{ label() }}
+    @if (required()) {
+      <span class="field__required" aria-hidden="true">*</span>
+    }
+  </label>
+  <ng-content />
+  @if (error(); as message) {
+    <p class="field__error" role="alert">{{ message }}</p>
+  }
+</div>

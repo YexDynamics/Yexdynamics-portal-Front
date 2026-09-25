@@ -1,0 +1,23 @@
+@if (loading()) {
+  <div class="game-list__state">
+    <app-spinner label="Cargando juegos" />
+  </div>
+} @else if (error(); as message) {
+  <div class="game-list__state">
+    <app-alert variant="error">{{ message }}</app-alert>
+    <app-button (clicked)="retryRequested.emit()">Reintentar</app-button>
+  </div>
+} @else if (games().length === 0) {
+  <p class="game-list__state">Aún no hay juegos en el catálogo</p>
+} @else {
+  <div class="game-list__grid">
+    @for (game of games(); track game.id) {
+      <app-game-card
+        [game]="game"
+        [showActions]="showActions()"
+        (editRequested)="editRequested.emit($event)"
+        (disableRequested)="disableRequested.emit($event)"
+      />
+    }
+  </div>
+}

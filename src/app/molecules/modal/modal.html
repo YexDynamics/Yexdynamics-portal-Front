@@ -1,0 +1,18 @@
+<dialog
+  #dialog
+  class="modal"
+  [attr.aria-label]="title()"
+  (close)="closed.emit()"
+  (cancel)="onCancel($event)"
+  (click)="onBackdropClick($event)"
+>
+  <div class="modal__content">
+    <header class="modal__header">
+      <h3 class="modal__title">{{ title() }}</h3>
+      <app-button variant="secondary" size="sm" accessibleLabel="Cerrar" [disabled]="locked()" (clicked)="requestClose()">×</app-button>
+    </header>
+    <div class="modal__body">
+      <ng-content />
+    </div>
+  </div>
+</dialog>

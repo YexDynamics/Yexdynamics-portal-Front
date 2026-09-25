@@ -1,18 +1,21 @@
-import { Component, OnInit, ChangeDetectorRef } from '@angular/core';
+import { ChangeDetectorRef, Component, Input, OnChanges, OnInit, SimpleChanges } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
-import { LeaderboardService, LeaderboardDTO, LeaderboardResponseDTO } from '../../services/leaderboard'; 
+import { LeaderboardDTO, LeaderboardResponseDTO, LeaderboardService } from '../../services/leaderboard';
 
 @Component({
   selector: 'app-leaderboard',
   standalone: true,
   imports: [CommonModule, FormsModule],
-  templateUrl: './leaderboard.html'
+  templateUrl: './leaderboard.html',
+  styleUrl: './leaderboard.css'
 })
-export class LeaderboardComponent implements OnInit {
+export class LeaderboardComponent implements OnInit, OnChanges {
+  @Input({ required: true }) gameId!: number;
+  @Input() gameTitle: string | null = null;
+
   scores: LeaderboardResponseDTO[] = [];
-  targetGameId: number = 1;
-  newScore: LeaderboardDTO = { nickname: '', gameId: 1, gameTitle: 'PuntoBall', scoreValue: 0 };
+  newScore: LeaderboardDTO = { nickname: '', scoreValue: 0 };
   message: string = '';
 
   constructor(
@@ -24,8 +27,14 @@ export class LeaderboardComponent implements OnInit {
     this.cargarScores();
   }
 
+  ngOnChanges(changes: SimpleChanges): void {
+    if (changes['gameId'] && !changes['gameId'].firstChange) {
+      this.cargarScores();
+    }
+  }
+
   cargarScores(): void {
-    this.leaderboardService.getScoresByGame(this.targetGameId).subscribe({
+    this.leaderboardService.getScoresByGame(this.gameId).subscribe({
       next: (data) => {
         this.scores = data || [];
         this.cdr.detectChanges();
@@ -44,8 +53,10 @@ export class LeaderboardComponent implements OnInit {
       return;
     }
 
-    // Aseguramos que siempre lleve el gameId fijo al guardar
-    this.newScore.gameId = this.targetGameId;
+    this.newScore.gameId = this.gameId;
+    if (this.gameTitle) {
+      this.newScore.gameTitle = this.gameTitle;
+    }
 
     this.leaderboardService.saveScore(this.newScore).subscribe({
       next: () => {

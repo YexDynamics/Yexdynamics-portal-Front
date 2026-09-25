@@ -1,0 +1,17 @@
+.game-form__fieldset {
+  min-width: 0;
+  margin: 0;
+  padding: 0;
+  border: none;
+}
+
+app-alert {
+  margin-top: 10px;
+}
+
+.game-form__actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 10px;
+  margin-top: 20px;
+}

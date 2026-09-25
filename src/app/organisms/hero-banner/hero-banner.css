@@ -1,0 +1,19 @@
+:host {
+  display: block;
+}
+
+.hero {
+  padding: 60px 20px;
+  background: var(--color-surface);
+  text-align: center;
+}
+
+.hero__title {
+  margin: 0 0 10px;
+}
+
+.hero__subtitle {
+  max-width: 640px;
+  margin: 0 auto;
+  color: var(--color-secondary);
+}

@@ -1,0 +1,19 @@
+:host {
+  display: block;
+}
+
+.game-list__grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+  gap: 20px;
+}
+
+.game-list__state {
+  padding: 40px 0;
+  text-align: center;
+}
+
+app-alert {
+  margin-bottom: 15px;
+  text-align: left;
+}

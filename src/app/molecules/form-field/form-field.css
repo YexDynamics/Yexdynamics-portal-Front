@@ -1,0 +1,19 @@
+.field {
+  margin-bottom: 10px;
+}
+
+.field__label {
+  display: block;
+  margin-bottom: 4px;
+}
+
+.field__required {
+  margin-left: 2px;
+  color: var(--color-danger);
+}
+
+.field__error {
+  margin: 4px 0 0;
+  color: var(--color-danger);
+  font-size: 0.875rem;
+}
