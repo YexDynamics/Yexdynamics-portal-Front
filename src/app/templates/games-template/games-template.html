@@ -1,0 +1,8 @@
+<section class="games-template">
+  <header class="games-template__header">
+    <h2 class="games-template__title">{{ title() }}</h2>
+    <ng-content select="[slot=actions]" />
+  </header>
+  <ng-content select="[slot=feedback]" />
+  <ng-content />
+</section>

@@ -1,1 +1,19 @@
 /* You can add global styles to this file, and also import other style files */
+
+:root {
+  --font-family-base: sans-serif;
+  --color-primary: #007bff;
+  --color-secondary: #6c757d;
+  --color-danger: #dc3545;
+  --color-text-on-color: #fff;
+  --color-surface: #f4f4f9;
+  --color-surface-strong: #eee;
+  --color-success-bg: #d4edda;
+  --color-success-text: #155724;
+  --color-danger-bg: #f8d7da;
+  --color-danger-text: #721c24;
+}
+
+body {
+  font-family: var(--font-family-base);
+}

@@ -1,0 +1,19 @@
+.game-detail-template {
+  max-width: 900px;
+  margin: 40px auto;
+}
+
+.game-detail-template__back {
+  display: inline-block;
+  margin-bottom: 20px;
+  color: var(--color-primary);
+  text-decoration: none;
+}
+
+.game-detail-template__back:hover {
+  text-decoration: underline;
+}
+
+.game-detail-template__info {
+  margin-bottom: 30px;
+}

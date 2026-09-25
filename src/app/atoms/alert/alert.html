@@ -1,0 +1,11 @@
+<div
+  class="alert"
+  [class.alert--success]="variant() === 'success'"
+  [class.alert--error]="variant() === 'error'"
+  [attr.role]="role()"
+>
+  <span class="alert__message"><ng-content /></span>
+  @if (dismissible()) {
+    <button type="button" class="alert__close" aria-label="Cerrar mensaje" (click)="dismissed.emit()">×</button>
+  }
+</div>

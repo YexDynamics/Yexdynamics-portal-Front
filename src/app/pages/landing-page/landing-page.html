@@ -1,0 +1,10 @@
+<app-landing-template>
+  <app-hero-banner
+    slot="hero"
+    title="Portal Indie"
+    subtitle="Descubre juegos independientes, compite con la comunidad y encuentra tu próximo favorito."
+  />
+
+  <h2 class="landing-page__heading">Catálogo de juegos</h2>
+  <app-game-list [games]="games()" [loading]="loading()" [error]="error()" [showActions]="false" (retryRequested)="loadGames()" />
+</app-landing-template>
