@@ -3,4 +3,41 @@
   <a class="navbar__link" routerLink="/" routerLinkActive="navbar__link--active" [routerLinkActiveOptions]="{ exact: true }">Inicio</a>
   <a class="navbar__link" routerLink="/games" routerLinkActive="navbar__link--active">Gestionar Juegos</a>
   <a class="navbar__link" routerLink="/external-games" routerLinkActive="navbar__link--active">Descubrir</a>
+
+  <div class="navbar__spacer"></div>
+
+  @if (isAuthenticated()) {
+    <span class="navbar__user">{{ user()?.nickname ?? user()?.username }}</span>
+    @if (!user()?.nickname) {
+      <button type="button" class="navbar__action" (click)="openNicknameModal()">Vincular nickname</button>
+    }
+    <button type="button" class="navbar__action" (click)="logout()">Cerrar sesión</button>
+  } @else {
+    <button type="button" class="navbar__action" (click)="openLogin()">Iniciar sesión</button>
+    <button type="button" class="navbar__action" (click)="openRegister()">Registrarse</button>
+  }
 </nav>
+
+@if (authModalOpen()) {
+  <app-modal [title]="authModalTitle()" [locked]="authSaving()" (closed)="closeAuthModal()">
+    <app-auth-form
+      [mode]="authMode()"
+      [saving]="authSaving()"
+      [serverError]="authError()"
+      (loginSubmitted)="handleLogin($event)"
+      (registerSubmitted)="handleRegister($event)"
+      (modeChanged)="switchAuthMode($event)"
+    />
+  </app-modal>
+}
+
+@if (nicknameModalOpen()) {
+  <app-modal title="Vincular nickname" [locked]="nicknameSaving()" (closed)="closeNicknameModal()">
+    <app-nickname-form
+      [currentNickname]="user()?.nickname ?? null"
+      [saving]="nicknameSaving()"
+      [serverError]="nicknameError()"
+      (submitted)="handleNicknameSubmit($event)"
+    />
+  </app-modal>
+}

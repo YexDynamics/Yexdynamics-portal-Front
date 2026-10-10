@@ -5,6 +5,8 @@ import { HttpTestingController, provideHttpClientTesting } from '@angular/common
 import { CreateGameDTO, GameDTO, GameService } from './game';
 
 const API_URL = 'http://localhost:8080/api/v1/games';
+const MY_GAMES_API_URL = 'http://localhost:8080/api/v1/my-games';
+const ADMIN_API_URL = 'http://localhost:8080/api/v1/admin/games';
 
 const game: GameDTO = {
   id: 1,
@@ -38,7 +40,7 @@ describe('GameService', () => {
     expect(service).toBeTruthy();
   });
 
-  it('should get the active games catalog', () => {
+  it('should get the public active games catalog', () => {
     let result: GameDTO[] = [];
     service.getGames().subscribe((games) => (result = games));
 
@@ -69,23 +71,46 @@ describe('GameService', () => {
     req.flush(game);
   });
 
-  it('should update a game', () => {
-    service.updateGame(1, payload).subscribe();
+  it('should get my own games', () => {
+    let result: GameDTO[] = [];
+    service.getMyGames().subscribe((games) => (result = games));
 
-    const req = http.expectOne(`${API_URL}/1`);
+    const req = http.expectOne(MY_GAMES_API_URL);
+    expect(req.request.method).toBe('GET');
+    req.flush([game]);
+
+    expect(result).toEqual([game]);
+  });
+
+  it('should update one of my games', () => {
+    service.updateMyGame(1, payload).subscribe();
+
+    const req = http.expectOne(`${MY_GAMES_API_URL}/1`);
     expect(req.request.method).toBe('PUT');
     expect(req.request.body).toEqual(payload);
     req.flush(game);
   });
 
-  it('should soft delete a game', () => {
+  it('should disable one of my games', () => {
     let completed = false;
-    service.deleteGame(1).subscribe({ complete: () => (completed = true) });
+    service.disableMyGame(1).subscribe({ complete: () => (completed = true) });
 
-    const req = http.expectOne(`${API_URL}/1`);
+    const req = http.expectOne(`${MY_GAMES_API_URL}/1`);
     expect(req.request.method).toBe('DELETE');
     req.flush(null, { status: 204, statusText: 'No Content' });
 
     expect(completed).toBe(true);
+  });
+
+  it('should update the status of any game as an admin', () => {
+    let result: string | undefined;
+    service.updateGameStatus(1, false).subscribe((value) => (result = value));
+
+    const req = http.expectOne(`${ADMIN_API_URL}/1/status`);
+    expect(req.request.method).toBe('PATCH');
+    expect(req.request.body).toEqual({ active: false });
+    req.flush('Estado del juego actualizado correctamente');
+
+    expect(result).toBe('Estado del juego actualizado correctamente');
   });
 });
