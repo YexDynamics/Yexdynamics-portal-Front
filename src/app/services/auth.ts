@@ -1,6 +1,7 @@
 import { Injectable, computed, signal } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable, tap } from 'rxjs';
+import { API_BASE_URL } from '../config/api';
 
 export type UserRole = 'ROLE_USER' | 'ROLE_ADMIN';
 
@@ -38,8 +39,8 @@ const USER_KEY = 'portal_indie_user';
   providedIn: 'root'
 })
 export class AuthService {
-  private apiUrl = 'http://localhost:8080/api/v1/auth';
-  private usersApiUrl = 'http://localhost:8080/api/v1/users/me';
+  private apiUrl = `${API_BASE_URL}/api/v1/auth`;
+  private usersApiUrl = `${API_BASE_URL}/api/v1/users/me`;
 
   private readonly currentUser = signal<AuthUser | null>(this.readStoredUser());
 

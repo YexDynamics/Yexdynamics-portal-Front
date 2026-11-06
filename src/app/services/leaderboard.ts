@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
+import { API_BASE_URL } from '../config/api';
 
 export interface LeaderboardDTO {
   nickname: string;
@@ -21,7 +22,7 @@ export interface LeaderboardResponseDTO {
   providedIn: 'root'
 })
 export class LeaderboardService {
-  private apiUrl = 'http://localhost:8080/api/v1/leaderboard';
+  private apiUrl = `${API_BASE_URL}/api/v1/leaderboard`;
 
   constructor(private http: HttpClient) {}
 

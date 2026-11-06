@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
+import { API_BASE_URL } from '../config/api';
 
 export interface GameDTO {
   id: number;
@@ -47,9 +48,9 @@ export interface AdminGameDTO {
   providedIn: 'root'
 })
 export class GameService {
-  private apiUrl = 'http://localhost:8080/api/v1/games';
-  private myGamesApiUrl = 'http://localhost:8080/api/v1/my-games';
-  private adminApiUrl = 'http://localhost:8080/api/v1/admin/games';
+  private apiUrl = `${API_BASE_URL}/api/v1/games`;
+  private myGamesApiUrl = `${API_BASE_URL}/api/v1/my-games`;
+  private adminApiUrl = `${API_BASE_URL}/api/v1/admin/games`;
 
   constructor(private http: HttpClient) {}
 

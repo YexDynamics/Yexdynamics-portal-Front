@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { UserRole } from './auth';
+import { API_BASE_URL } from '../config/api';
 
 export interface AdminUserDTO {
   id: number;
@@ -17,7 +18,7 @@ export interface AdminUserDTO {
   providedIn: 'root'
 })
 export class AdminUserService {
-  private apiUrl = 'http://localhost:8080/api/v1/admin/users';
+  private apiUrl = `${API_BASE_URL}/api/v1/admin/users`;
 
   constructor(private http: HttpClient) {}
 
