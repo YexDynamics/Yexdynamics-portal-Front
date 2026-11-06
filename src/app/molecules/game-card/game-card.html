@@ -37,6 +37,10 @@
     @if (game().downloadUrl) {
       <a class="card__link" [href]="game().downloadUrl" target="_blank" rel="noopener noreferrer">Jugar / Descargar</a>
     }
+
+    @if (showActions() && game().gameToken; as token) {
+      <app-token-field class="card__token" [token]="token" />
+    }
   </div>
 
   @if (showActions()) {

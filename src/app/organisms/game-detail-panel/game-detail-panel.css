@@ -50,6 +50,10 @@
   white-space: pre-line;
 }
 
+.detail__token {
+  margin-top: 15px;
+}
+
 .detail__link {
   color: var(--color-primary);
   font-weight: bold;
