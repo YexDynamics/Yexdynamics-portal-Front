@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
+import { API_BASE_URL } from '../config/api';
 
 export interface ExternalGameResponseDTO {
   id: number;
@@ -23,7 +24,7 @@ export interface ExternalGameDetailDTO extends ExternalGameResponseDTO {
   providedIn: 'root'
 })
 export class ExternalGameService {
-  private apiUrl = 'http://localhost:8080/api/v1/external-games';
+  private apiUrl = `${API_BASE_URL}/api/v1/external-games`;
 
   constructor(private http: HttpClient) {}
 
