@@ -1,0 +1,12 @@
+<label class="checkbox" [attr.for]="inputId()">
+  <input
+    class="checkbox__input"
+    type="checkbox"
+    [id]="inputId()"
+    [checked]="checked()"
+    [disabled]="disabled()"
+    (change)="handleChange($event)"
+    (blur)="handleBlur()"
+  >
+  <span class="checkbox__label"><ng-content /></span>
+</label>

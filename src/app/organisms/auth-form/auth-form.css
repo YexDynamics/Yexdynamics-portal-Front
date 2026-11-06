@@ -1,0 +1,40 @@
+.auth-form__fieldset {
+  min-width: 0;
+  margin: 0;
+  padding: 0;
+  border: none;
+}
+
+app-alert {
+  margin-top: 10px;
+}
+
+.auth-form__actions {
+  margin-top: 20px;
+}
+
+.auth-form__actions app-button {
+  display: block;
+}
+
+.auth-form__switch {
+  margin: 15px 0 0;
+  text-align: center;
+  font-size: 0.875rem;
+}
+
+.auth-form__link {
+  padding: 0;
+  border: none;
+  background: none;
+  color: var(--color-primary);
+  font: inherit;
+  font-weight: bold;
+  text-decoration: underline;
+  cursor: pointer;
+}
+
+.auth-form__link:disabled {
+  opacity: 0.65;
+  cursor: not-allowed;
+}

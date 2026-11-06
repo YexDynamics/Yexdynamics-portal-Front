@@ -1,0 +1,20 @@
+<form class="nickname-form" [formGroup]="form" (ngSubmit)="onSubmit()">
+  <p class="nickname-form__hint">
+    Este nickname vincula tu cuenta con los puntajes que ya registraste en el Leaderboard. Es distinto de tu nombre de
+    usuario y del nickname interno del juego (máx. 8 caracteres).
+  </p>
+
+  <fieldset class="nickname-form__fieldset" [disabled]="saving()">
+    <app-form-field label="Nickname del Leaderboard" controlId="nickname-field" [required]="true" [error]="errorFor()">
+      <app-text-input inputId="nickname-field" formControlName="nickname" placeholder="AgenteIsa" [maxLength]="50" [autofocus]="true" />
+    </app-form-field>
+  </fieldset>
+
+  @if (serverError(); as message) {
+    <app-alert variant="error">{{ message }}</app-alert>
+  }
+
+  <div class="nickname-form__actions">
+    <app-button type="submit" [loading]="saving()">Vincular nickname</app-button>
+  </div>
+</form>

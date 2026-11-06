@@ -1,0 +1,33 @@
+:host {
+  display: inline-block;
+}
+
+.badge {
+  display: inline-block;
+  padding: 4px 8px;
+  border-radius: 4px;
+  font-size: 0.8rem;
+  font-weight: 500;
+  white-space: nowrap;
+}
+
+.badge--success {
+  background: var(--color-primary);
+  color: #ffffff;
+}
+
+.badge--danger {
+  background: var(--color-surface-strong);
+  color: var(--color-text);
+  border: 1px solid rgba(0, 0, 0, 0.1);
+}
+
+.badge--neutral {
+  background: var(--color-surface-strong);
+  color: var(--color-secondary);
+}
+
+.badge--primary {
+  background: var(--color-primary);
+  color: var(--color-text-on-color);
+}

@@ -69,6 +69,10 @@
   -webkit-box-orient: vertical;
 }
 
+.card__token {
+  margin-top: 10px;
+}
+
 .card__link {
   color: var(--color-primary);
   font-weight: bold;

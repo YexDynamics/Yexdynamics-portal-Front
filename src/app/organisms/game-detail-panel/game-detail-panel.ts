@@ -1,10 +1,12 @@
 import { ChangeDetectionStrategy, Component, computed, input, signal } from '@angular/core';
 import { GameDTO } from '../../services/game';
+import { TokenFieldComponent } from '../../molecules/token-field/token-field';
 
 @Component({
   selector: 'app-game-detail-panel',
   standalone: true,
   changeDetection: ChangeDetectionStrategy.OnPush,
+  imports: [TokenFieldComponent],
   templateUrl: './game-detail-panel.html',
   styleUrl: './game-detail-panel.css'
 })

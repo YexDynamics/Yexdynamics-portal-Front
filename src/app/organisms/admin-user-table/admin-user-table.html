@@ -1,0 +1,68 @@
+@if (loading()) {
+  <div class="admin-users__state">
+    <app-spinner label="Cargando usuarios" />
+  </div>
+} @else if (error(); as message) {
+  <div class="admin-users__state">
+    <app-alert variant="error">{{ message }}</app-alert>
+    <app-button (clicked)="retryRequested.emit()">Reintentar</app-button>
+  </div>
+} @else if (users().length === 0) {
+  <p class="admin-users__state">No hay usuarios registrados</p>
+} @else {
+  <div class="admin-users__scroll">
+    <table class="admin-users__table">
+      <thead>
+        <tr>
+          <th>Usuario</th>
+          <th>Correo</th>
+          <th>Rol</th>
+          <th>Estado</th>
+          <th>Acciones</th>
+        </tr>
+      </thead>
+      <tbody>
+        @for (user of users(); track user.id) {
+          <tr>
+            <td>
+              <span class="admin-users__name">{{ user.username }}</span>
+              @if (user.nickname) {
+                <span class="admin-users__meta">{{ user.nickname }}</span>
+              }
+            </td>
+            <td class="admin-users__email">{{ user.email }}</td>
+            <td>
+              <app-badge [variant]="user.role === 'ROLE_ADMIN' ? 'primary' : 'neutral'">
+                {{ user.role === 'ROLE_ADMIN' ? 'Administrador' : 'Usuario' }}
+              </app-badge>
+            </td>
+            <td>
+              <app-badge [variant]="user.enabled ? 'success' : 'danger'">
+                {{ user.enabled ? 'Activo' : 'Baneado' }}
+              </app-badge>
+            </td>
+            <td>
+              @if (user.username === currentUsername()) {
+                <span class="admin-users__self">Tu cuenta</span>
+              } @else {
+                <div class="admin-users__actions">
+                  <app-button
+                    [variant]="user.enabled ? 'danger' : 'secondary'"
+                    size="sm"
+                    [disabled]="busy()"
+                    (clicked)="statusToggleRequested.emit(user)"
+                  >
+                    {{ user.enabled ? 'Banear' : 'Desbanear' }}
+                  </app-button>
+                  <app-button variant="secondary" size="sm" [disabled]="busy()" (clicked)="roleChangeRequested.emit(user)">
+                    Cambiar rol
+                  </app-button>
+                </div>
+              }
+            </td>
+          </tr>
+        }
+      </tbody>
+    </table>
+  </div>
+}

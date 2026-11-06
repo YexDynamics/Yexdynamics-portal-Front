@@ -14,7 +14,7 @@
 
   @if (game(); as g) {
     <div slot="leaderboard">
-      <app-leaderboard [gameId]="g.id" [gameTitle]="g.title" />
+      <app-leaderboard [gameId]="g.id" [gameTitle]="g.title" [linked]="!!g.leaderboardLinked || !!g.gameToken" />
     </div>
   }
 </app-game-detail-template>

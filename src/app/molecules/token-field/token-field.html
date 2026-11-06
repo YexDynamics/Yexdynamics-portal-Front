@@ -1,0 +1,19 @@
+<div class="token">
+  <label class="token__label" [attr.for]="'token-' + token()">{{ label() }}</label>
+  <div class="token__row">
+    <input
+      class="token__input"
+      type="text"
+      readonly
+      [id]="'token-' + token()"
+      [value]="token()"
+      (focus)="selectAll($event)"
+    >
+    <app-button size="sm" variant="secondary" (clicked)="copy()">
+      {{ copied() ? '¡Copiado!' : 'Copiar token' }}
+    </app-button>
+  </div>
+  @if (copyFailed()) {
+    <p class="token__error" role="alert">No se pudo copiar. Selecciónalo y cópialo manualmente.</p>
+  }
+</div>

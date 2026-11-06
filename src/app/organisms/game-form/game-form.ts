@@ -1,6 +1,7 @@
 import { ChangeDetectionStrategy, Component, OnInit, booleanAttribute, computed, input, output } from '@angular/core';
 import { FormControl, FormGroup, ReactiveFormsModule, ValidatorFn, Validators } from '@angular/forms';
 import { AlertComponent } from '../../atoms/alert/alert';
+import { CheckboxComponent } from '../../atoms/checkbox/checkbox';
 import { ButtonComponent } from '../../atoms/button/button';
 import { TextInputComponent } from '../../atoms/text-input/text-input';
 import { TextareaComponent } from '../../atoms/textarea/textarea';
@@ -31,6 +32,7 @@ const textControl = (...validators: ValidatorFn[]): FormControl<string> =>
     ReactiveFormsModule,
     AlertComponent,
     ButtonComponent,
+    CheckboxComponent,
     TextInputComponent,
     TextareaComponent,
     FormFieldComponent
@@ -55,11 +57,14 @@ export class GameFormComponent implements OnInit {
     downloadUrl: textControl(Validators.maxLength(500), httpUrl)
   });
 
+  protected readonly linkLeaderboard = new FormControl(false, { nonNullable: true });
+
   protected readonly submitLabel = computed(() => (this.game() ? 'Guardar cambios' : 'Registrar juego'));
 
   ngOnInit(): void {
     const game = this.game();
     if (game) {
+      this.linkLeaderboard.setValue(!!game.gameToken);
       this.form.patchValue({
         title: game.title,
         description: game.description ?? '',
@@ -103,7 +108,8 @@ export class GameFormComponent implements OnInit {
       genre: this.toNullable(value.genre),
       developerName: this.toNullable(value.developerName),
       coverImageUrl: this.toNullable(value.coverImageUrl),
-      downloadUrl: this.toNullable(value.downloadUrl)
+      downloadUrl: this.toNullable(value.downloadUrl),
+      linkLeaderboard: this.linkLeaderboard.value
     });
   }
 

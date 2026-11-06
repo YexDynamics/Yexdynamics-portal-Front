@@ -1,0 +1,46 @@
+<app-games-template title="Panel de Administración">
+  <div slot="actions" class="admin-page__tabs">
+    <app-button [variant]="activeTab() === 'games' ? 'primary' : 'secondary'" (clicked)="selectTab('games')">Juegos</app-button>
+    <app-button [variant]="activeTab() === 'users' ? 'primary' : 'secondary'" (clicked)="selectTab('users')">Usuarios</app-button>
+  </div>
+
+  <div slot="feedback">
+    @if (feedback(); as message) {
+      <app-alert [variant]="message.type" dismissible (dismissed)="dismissFeedback()">{{ message.text }}</app-alert>
+    }
+  </div>
+
+  @if (activeTab() === 'games') {
+    <app-admin-game-list
+      [games]="games()"
+      [loading]="gamesLoading()"
+      [error]="gamesError()"
+      [busy]="processing()"
+      (toggleRequested)="toggleGame($event)"
+      (deleteRequested)="requestGameDelete($event)"
+      (retryRequested)="loadGames()"
+    />
+  } @else {
+    <app-admin-user-table
+      [users]="users()"
+      [currentUsername]="currentUsername()"
+      [loading]="usersLoading()"
+      [error]="usersError()"
+      [busy]="processing()"
+      (statusToggleRequested)="toggleUserStatus($event)"
+      (roleChangeRequested)="requestRoleChange($event)"
+      (retryRequested)="loadUsers()"
+    />
+  }
+
+  @if (confirmDialog(); as dialog) {
+    <app-confirm-dialog
+      [title]="dialog.title"
+      [confirmLabel]="dialog.confirmLabel"
+      [message]="dialog.message"
+      [confirming]="processing()"
+      (confirmed)="confirmAction()"
+      (cancelled)="cancelAction()"
+    />
+  }
+</app-games-template>

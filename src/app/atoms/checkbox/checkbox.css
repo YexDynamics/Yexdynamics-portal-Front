@@ -1,0 +1,15 @@
+:host {
+  display: block;
+}
+
+.checkbox {
+  display: flex;
+  align-items: flex-start;
+  gap: 8px;
+  cursor: pointer;
+}
+
+.checkbox__input {
+  margin-top: 3px;
+  cursor: pointer;
+}
