@@ -5,6 +5,16 @@
   border: none;
 }
 
+.game-form__link {
+  margin-top: 15px;
+}
+
+.game-form__hint {
+  margin: 4px 0 0 24px;
+  color: var(--color-secondary);
+  font-size: 0.875rem;
+}
+
 app-alert {
   margin-top: 10px;
 }

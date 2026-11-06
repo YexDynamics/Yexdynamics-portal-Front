@@ -1,7 +1,11 @@
 <div>
   <h3>Top Scores</h3>
 
-  <div style="background: #f4f4f9; padding: 20px; border-radius: 8px; margin-bottom: 20px;">
+  <p *ngIf="linked" style="background: #f4f4f9; padding: 15px; border-radius: 8px; margin-bottom: 20px;">
+    Los puntajes de este juego se registran automáticamente desde el propio juego.
+  </p>
+
+  <div *ngIf="!linked" style="background: #f4f4f9; padding: 20px; border-radius: 8px; margin-bottom: 20px;">
     <h4 style="margin-top: 0;">Registrar Puntaje</h4>
     <div style="margin-bottom: 10px;">
       <label>Nickname: </label>

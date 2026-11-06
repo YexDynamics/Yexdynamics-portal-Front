@@ -12,6 +12,8 @@ export interface GameDTO {
   coverImageUrl: string | null;
   downloadUrl: string | null;
   createdAt: string;
+  gameToken?: string;
+  leaderboardLinked?: boolean;
 }
 
 export interface CreateGameDTO {
@@ -22,6 +24,7 @@ export interface CreateGameDTO {
   developerName?: string | null;
   coverImageUrl?: string | null;
   downloadUrl?: string | null;
+  linkLeaderboard?: boolean;
 }
 
 export type UpdateGameDTO = CreateGameDTO;
@@ -64,6 +67,10 @@ export class GameService {
 
   getMyGames(): Observable<GameDTO[]> {
     return this.http.get<GameDTO[]>(this.myGamesApiUrl);
+  }
+
+  getMyGameById(id: number): Observable<GameDTO> {
+    return this.http.get<GameDTO>(`${this.myGamesApiUrl}/${id}`);
   }
 
   updateMyGame(id: number, dto: UpdateGameDTO): Observable<GameDTO> {

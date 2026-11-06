@@ -55,6 +55,18 @@
         [maxLength]="500"
       />
     </app-form-field>
+
+    <div class="game-form__link">
+      <app-checkbox inputId="game-link-leaderboard" [formControl]="linkLeaderboard">
+        Vincular con Leaderboard online
+      </app-checkbox>
+      <p class="game-form__hint">
+        Se generará un token para que tu juego envíe los puntajes automáticamente y no se podrán registrar de forma manual.
+        @if (game()?.gameToken) {
+          Si la desmarcas, el token actual se eliminará.
+        }
+      </p>
+    </div>
   </fieldset>
 
   @if (serverError(); as message) {

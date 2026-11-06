@@ -1,12 +1,13 @@
 import { ChangeDetectionStrategy, Component, OnInit, signal } from '@angular/core';
 import { HttpErrorResponse } from '@angular/common/http';
 import { ActivatedRoute } from '@angular/router';
-import { finalize } from 'rxjs';
+import { catchError, finalize, of, switchMap } from 'rxjs';
 import { AlertComponent } from '../../atoms/alert/alert';
 import { ButtonComponent } from '../../atoms/button/button';
 import { SpinnerComponent } from '../../atoms/spinner/spinner';
 import { LeaderboardComponent } from '../../organisms/leaderboard/leaderboard';
 import { GameDetailPanelComponent } from '../../organisms/game-detail-panel/game-detail-panel';
+import { AuthService } from '../../services/auth';
 import { GameDTO, GameService } from '../../services/game';
 import { GameDetailTemplateComponent } from '../../templates/game-detail-template/game-detail-template';
 
@@ -33,7 +34,8 @@ export class GameDetailPageComponent implements OnInit {
 
   constructor(
     private route: ActivatedRoute,
-    private gameService: GameService
+    private gameService: GameService,
+    private authService: AuthService
   ) {}
 
   ngOnInit(): void {
@@ -59,9 +61,15 @@ export class GameDetailPageComponent implements OnInit {
     this.error.set(null);
     this.notFound.set(false);
 
-    this.gameService
-      .getGameById(id)
-      .pipe(finalize(() => this.loading.set(false)))
+    const ownGame$ = this.authService.isAuthenticated()
+      ? this.gameService.getMyGameById(id).pipe(catchError(() => of(null)))
+      : of(null);
+
+    ownGame$
+      .pipe(
+        switchMap((own) => (own ? of(own) : this.gameService.getGameById(id))),
+        finalize(() => this.loading.set(false))
+      )
       .subscribe({
         next: (game) => this.game.set(game),
         error: (err: HttpErrorResponse) => {

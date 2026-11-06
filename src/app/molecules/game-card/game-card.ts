@@ -1,13 +1,14 @@
 import { ChangeDetectionStrategy, Component, booleanAttribute, computed, input, output, signal } from '@angular/core';
 import { RouterLink } from '@angular/router';
 import { ButtonComponent } from '../../atoms/button/button';
+import { TokenFieldComponent } from '../token-field/token-field';
 import { GameDTO } from '../../services/game';
 
 @Component({
   selector: 'app-game-card',
   standalone: true,
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [RouterLink, ButtonComponent],
+  imports: [RouterLink, ButtonComponent, TokenFieldComponent],
   templateUrl: './game-card.html',
   styleUrl: './game-card.css'
 })

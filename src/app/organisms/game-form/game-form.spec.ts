@@ -76,9 +76,28 @@ describe('GameFormComponent', () => {
         genre: 'Arcade',
         developerName: null,
         coverImageUrl: null,
-        downloadUrl: null
+        downloadUrl: null,
+        linkLeaderboard: false
       }
     ]);
+  });
+
+  it('should emit linkLeaderboard true when the checkbox is checked', () => {
+    fixture.detectChanges();
+    fill('game-title', 'PuntoBall');
+    const checkbox = element().querySelector<HTMLInputElement>('#game-link-leaderboard')!;
+    checkbox.checked = true;
+    checkbox.dispatchEvent(new Event('change'));
+    submit();
+
+    expect(emitted[0].linkLeaderboard).toBe(true);
+  });
+
+  it('should check the box when editing a game that already has a token', () => {
+    fixture.componentRef.setInput('game', { ...game, gameToken: 'abc-123' });
+    fixture.detectChanges();
+
+    expect(element().querySelector<HTMLInputElement>('#game-link-leaderboard')!.checked).toBe(true);
   });
 
   it('should prefill the form and change the submit label when editing', () => {

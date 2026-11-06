@@ -13,6 +13,7 @@ import { LeaderboardDTO, LeaderboardResponseDTO, LeaderboardService } from '../.
 export class LeaderboardComponent implements OnInit, OnChanges {
   @Input({ required: true }) gameId!: number;
   @Input() gameTitle: string | null = null;
+  @Input() linked = false;
 
   scores: LeaderboardResponseDTO[] = [];
   newScore: LeaderboardDTO = { nickname: '', scoreValue: 0 };

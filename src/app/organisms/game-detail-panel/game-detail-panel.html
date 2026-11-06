@@ -35,5 +35,9 @@
     @if (game().downloadUrl) {
       <a class="detail__link" [href]="game().downloadUrl" target="_blank" rel="noopener noreferrer">Jugar / Descargar</a>
     }
+
+    @if (game().gameToken; as token) {
+      <app-token-field class="detail__token" [token]="token" />
+    }
   </div>
 </article>
