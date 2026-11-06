@@ -1,6 +1,6 @@
 import { ChangeDetectionStrategy, Component, computed, inject, signal } from '@angular/core';
 import { HttpErrorResponse } from '@angular/common/http';
-import { RouterLink, RouterLinkActive } from '@angular/router';
+import { Router, RouterLink, RouterLinkActive } from '@angular/router';
 import { finalize } from 'rxjs';
 import { ModalComponent } from '../../molecules/modal/modal';
 import { AuthService, LoginRequestDTO, RegisterRequestDTO } from '../../services/auth';
@@ -17,9 +17,11 @@ import { NicknameFormComponent } from '../nickname-form/nickname-form';
 })
 export class NavbarComponent {
   private readonly authService = inject(AuthService);
+  private readonly router = inject(Router);
 
   protected readonly user = this.authService.user;
   protected readonly isAuthenticated = this.authService.isAuthenticated;
+  protected readonly isAdmin = this.authService.isAdmin;
 
   protected readonly authModalOpen = signal(false);
   protected readonly authMode = signal<AuthMode>('login');
@@ -82,6 +84,7 @@ export class NavbarComponent {
 
   protected logout(): void {
     this.authService.logout();
+    this.router.navigateByUrl('/');
   }
 
   protected openNicknameModal(): void {

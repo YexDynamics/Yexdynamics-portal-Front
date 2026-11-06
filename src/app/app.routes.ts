@@ -1,4 +1,5 @@
 import { Routes } from '@angular/router';
+import { adminGuard } from './guards/admin.guard';
 import { authGuard } from './guards/auth.guard';
 
 export const routes: Routes = [
@@ -23,6 +24,11 @@ export const routes: Routes = [
     path: 'external-games/:id',
     loadComponent: () =>
       import('./pages/external-game-detail-page/external-game-detail-page').then((m) => m.ExternalGameDetailPageComponent)
+  },
+  {
+    path: 'admin',
+    canActivate: [adminGuard],
+    loadComponent: () => import('./pages/admin-page/admin-page').then((m) => m.AdminPageComponent)
   },
   { path: '**', redirectTo: '' }
 ];

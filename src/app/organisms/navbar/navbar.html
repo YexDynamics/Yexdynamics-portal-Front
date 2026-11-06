@@ -3,6 +3,9 @@
   <a class="navbar__link" routerLink="/" routerLinkActive="navbar__link--active" [routerLinkActiveOptions]="{ exact: true }">Inicio</a>
   <a class="navbar__link" routerLink="/games" routerLinkActive="navbar__link--active">Gestionar Juegos</a>
   <a class="navbar__link" routerLink="/external-games" routerLinkActive="navbar__link--active">Descubrir</a>
+  @if (isAdmin()) {
+    <a class="navbar__link" routerLink="/admin" routerLinkActive="navbar__link--active">Administración</a>
+  }
 
   <div class="navbar__spacer"></div>
 

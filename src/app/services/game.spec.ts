@@ -113,4 +113,26 @@ describe('GameService', () => {
 
     expect(result).toBe('Estado del juego actualizado correctamente');
   });
+
+  it('should get every game as an admin', () => {
+    let result: unknown[] = [];
+    service.getAllGamesForAdmin().subscribe((games) => (result = games));
+
+    const req = http.expectOne(ADMIN_API_URL);
+    expect(req.request.method).toBe('GET');
+    req.flush([{ ...game, active: false, ownerUsername: 'agente_isa' }]);
+
+    expect(result.length).toBe(1);
+  });
+
+  it('should hard delete a game as an admin', () => {
+    let completed = false;
+    service.hardDeleteGame(1).subscribe({ complete: () => (completed = true) });
+
+    const req = http.expectOne(`${ADMIN_API_URL}/1`);
+    expect(req.request.method).toBe('DELETE');
+    req.flush(null, { status: 204, statusText: 'No Content' });
+
+    expect(completed).toBe(true);
+  });
 });

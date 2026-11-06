@@ -26,6 +26,20 @@ export interface CreateGameDTO {
 
 export type UpdateGameDTO = CreateGameDTO;
 
+export interface AdminGameDTO {
+  id: number;
+  title: string;
+  description: string | null;
+  version: string | null;
+  genre: string | null;
+  developerName: string | null;
+  coverImageUrl: string | null;
+  downloadUrl: string | null;
+  active: boolean;
+  ownerUsername: string | null;
+  createdAt: string;
+}
+
 @Injectable({
   providedIn: 'root'
 })
@@ -62,5 +76,13 @@ export class GameService {
 
   updateGameStatus(id: number, active: boolean): Observable<string> {
     return this.http.patch(`${this.adminApiUrl}/${id}/status`, { active }, { responseType: 'text' });
+  }
+
+  getAllGamesForAdmin(): Observable<AdminGameDTO[]> {
+    return this.http.get<AdminGameDTO[]>(this.adminApiUrl);
+  }
+
+  hardDeleteGame(id: number): Observable<void> {
+    return this.http.delete<void>(`${this.adminApiUrl}/${id}`);
   }
 }

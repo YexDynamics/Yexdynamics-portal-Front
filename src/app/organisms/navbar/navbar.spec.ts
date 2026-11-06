@@ -1,6 +1,6 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { provideZonelessChangeDetection } from '@angular/core';
-import { provideRouter } from '@angular/router';
+import { Router, provideRouter } from '@angular/router';
 import { provideHttpClient } from '@angular/common/http';
 import { HttpTestingController, provideHttpClientTesting } from '@angular/common/http/testing';
 import { NavbarComponent } from './navbar';
@@ -97,5 +97,48 @@ describe('NavbarComponent', () => {
     fixture.detectChanges();
 
     expect(element().textContent).toContain('Iniciar sesión');
+  });
+
+  const loginAs = (role: 'ROLE_USER' | 'ROLE_ADMIN'): void => {
+    element().querySelector<HTMLButtonElement>('.navbar__action')!.click();
+    fixture.detectChanges();
+    fill('login-username', 'agente_isa');
+    fill('login-password', 'secret123');
+    element().querySelector('form')!.dispatchEvent(new Event('submit'));
+    http.expectOne('http://localhost:8080/api/v1/auth/login').flush({
+      token: 'jwt-token',
+      username: 'agente_isa',
+      email: 'isa@example.com',
+      nickname: null,
+      role
+    });
+    fixture.detectChanges();
+  };
+
+  it('should hide the admin link for anonymous visitors and regular users', () => {
+    expect(element().querySelector('a[href="/admin"]')).toBeNull();
+
+    loginAs('ROLE_USER');
+
+    expect(element().querySelector('a[href="/admin"]')).toBeNull();
+  });
+
+  it('should show the admin link only for admins', () => {
+    loginAs('ROLE_ADMIN');
+
+    expect(element().querySelector('a[href="/admin"]')).toBeTruthy();
+  });
+
+  it('should send the user back to the home page on logout', async () => {
+    const router = TestBed.inject(Router);
+    router.resetConfig([{ path: '', children: [] }, { path: 'games', children: [] }]);
+    await router.navigateByUrl('/games');
+    loginAs('ROLE_USER');
+
+    const buttons = Array.from(element().querySelectorAll('.navbar__action'));
+    buttons.find((btn) => btn.textContent?.includes('Cerrar sesión'))!.dispatchEvent(new Event('click'));
+    await fixture.whenStable();
+
+    expect(router.url).toBe('/');
   });
 });
