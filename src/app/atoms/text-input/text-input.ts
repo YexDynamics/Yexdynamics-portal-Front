@@ -17,7 +17,7 @@ import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
 })
 export class TextInputComponent implements ControlValueAccessor {
   readonly inputId = input.required<string>();
-  readonly type = input<'text' | 'url'>('text');
+  readonly type = input<'text' | 'url' | 'password' | 'email'>('text');
   readonly placeholder = input('');
   readonly maxLength = input<number | null>(null);
   readonly autofocus = input(false, { transform: booleanAttribute });

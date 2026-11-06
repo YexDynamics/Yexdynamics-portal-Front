@@ -1,0 +1,35 @@
+import { Injectable } from '@angular/core';
+import { HttpClient } from '@angular/common/http';
+import { Observable } from 'rxjs';
+import { UserRole } from './auth';
+
+export interface AdminUserDTO {
+  id: number;
+  username: string;
+  nickname: string | null;
+  email: string;
+  role: UserRole;
+  enabled: boolean;
+  createdAt: string;
+}
+
+@Injectable({
+  providedIn: 'root'
+})
+export class AdminUserService {
+  private apiUrl = 'http://localhost:8080/api/v1/admin/users';
+
+  constructor(private http: HttpClient) {}
+
+  getUsers(): Observable<AdminUserDTO[]> {
+    return this.http.get<AdminUserDTO[]>(this.apiUrl);
+  }
+
+  updateUserStatus(id: number, enabled: boolean): Observable<AdminUserDTO> {
+    return this.http.patch<AdminUserDTO>(`${this.apiUrl}/${id}/status`, { enabled });
+  }
+
+  updateUserRole(id: number, role: UserRole): Observable<AdminUserDTO> {
+    return this.http.patch<AdminUserDTO>(`${this.apiUrl}/${id}/role`, { role });
+  }
+}

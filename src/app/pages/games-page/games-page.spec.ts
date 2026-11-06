@@ -20,13 +20,13 @@ const buildGame = (id: number, title: string): GameDTO => ({
 
 class GameServiceStub {
   games: GameDTO[] = [buildGame(1, 'PuntoBall'), buildGame(2, 'Astro Dash')];
-  getGamesResult: Observable<GameDTO[]> | null = null;
+  getMyGamesResult: Observable<GameDTO[]> | null = null;
   deleteResult: Observable<void> = of(undefined);
   deletedIds: number[] = [];
   created: CreateGameDTO[] = [];
 
-  getGames(): Observable<GameDTO[]> {
-    return this.getGamesResult ?? of([...this.games]);
+  getMyGames(): Observable<GameDTO[]> {
+    return this.getMyGamesResult ?? of([...this.games]);
   }
 
   createGame(dto: CreateGameDTO): Observable<GameDTO> {
@@ -34,11 +34,11 @@ class GameServiceStub {
     return of({ ...buildGame(3, dto.title) });
   }
 
-  updateGame(id: number, dto: CreateGameDTO): Observable<GameDTO> {
+  updateMyGame(id: number, dto: CreateGameDTO): Observable<GameDTO> {
     return of({ ...buildGame(id, dto.title) });
   }
 
-  deleteGame(id: number): Observable<void> {
+  disableMyGame(id: number): Observable<void> {
     this.deletedIds.push(id);
     return this.deleteResult;
   }
@@ -97,12 +97,12 @@ describe('GamesPageComponent', () => {
   });
 
   it('should show an error with retry when the catalog fails to load', async () => {
-    service.getGamesResult = throwError(() => new HttpErrorResponse({ status: 0 }));
+    service.getMyGamesResult = throwError(() => new HttpErrorResponse({ status: 0 }));
     await create();
 
     expect(element().querySelector('app-alert')?.textContent).toContain('No se pudo conectar');
 
-    service.getGamesResult = null;
+    service.getMyGamesResult = null;
     click('.game-list__state .btn--primary');
 
     expect(titles().length).toBe(2);

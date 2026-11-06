@@ -2,7 +2,7 @@
   display: flex;
   align-items: center;
   gap: 20px;
-  padding: 12px 20px;
+  padding: 12px 24px;
   background: var(--color-surface);
 }
 
@@ -21,4 +21,39 @@
 
 .navbar__link--active {
   font-weight: bold;
+}
+
+.navbar__spacer {
+  margin-left: auto;
+}
+
+.navbar__user {
+  font-weight: 500;
+  color: var(--color-text);
+  margin-right: 4px;
+}
+
+.navbar__action {
+  padding: 8px 16px;
+  border-radius: 6px;
+  font-weight: 500;
+  cursor: pointer;
+  font-size: 0.9rem;
+  border: 1px solid var(--color-primary);
+  background: transparent;
+  color: var(--color-primary);
+  transition: all 0.2s ease;
+}
+
+.navbar__action:hover {
+  background: rgba(var(--color-primary-rgb, 0, 123, 255), 0.08);
+}
+
+.navbar__action:last-child {
+  background: var(--color-primary);
+  color: #ffffff;
+}
+
+.navbar__action:last-child:hover {
+  filter: brightness(1.1);
 }

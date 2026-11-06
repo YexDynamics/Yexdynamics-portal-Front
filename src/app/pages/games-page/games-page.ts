@@ -71,12 +71,12 @@ export class GamesPageComponent implements OnInit, OnDestroy {
     this.loadError.set(null);
 
     this.gameService
-      .getGames()
+      .getMyGames()
       .pipe(finalize(() => this.loading.set(false)))
       .subscribe({
         next: (games) => this.games.set(games),
         error: (err: HttpErrorResponse) =>
-          this.loadError.set(this.resolveErrorMessage(err, 'No se pudo cargar el catálogo de juegos.'))
+          this.loadError.set(this.resolveErrorMessage(err, 'No se pudo cargar tus juegos.'))
       });
   }
 
@@ -104,7 +104,7 @@ export class GamesPageComponent implements OnInit, OnDestroy {
     }
 
     const editing = this.editingGame();
-    const request$ = editing ? this.gameService.updateGame(editing.id, dto) : this.gameService.createGame(dto);
+    const request$ = editing ? this.gameService.updateMyGame(editing.id, dto) : this.gameService.createGame(dto);
 
     this.saving.set(true);
     this.formError.set(null);
@@ -151,7 +151,7 @@ export class GamesPageComponent implements OnInit, OnDestroy {
     this.disabling.set(true);
 
     this.gameService
-      .deleteGame(game.id)
+      .disableMyGame(game.id)
       .pipe(finalize(() => this.disabling.set(false)))
       .subscribe({
         next: () => {

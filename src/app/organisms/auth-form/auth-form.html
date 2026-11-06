@@ -1,0 +1,63 @@
+@if (mode() === 'login') {
+  <form class="auth-form" [formGroup]="loginForm" (ngSubmit)="onLoginSubmit()">
+    <fieldset class="auth-form__fieldset" [disabled]="saving()">
+      <app-form-field label="Usuario" controlId="login-username" [required]="true" [error]="errorFor(loginForm.controls.username)">
+        <app-text-input inputId="login-username" formControlName="username" placeholder="Tu username" [autofocus]="true" />
+      </app-form-field>
+
+      <app-form-field label="Contraseña" controlId="login-password" [required]="true" [error]="errorFor(loginForm.controls.password)">
+        <app-text-input inputId="login-password" type="password" formControlName="password" placeholder="••••••••" />
+      </app-form-field>
+    </fieldset>
+
+    @if (serverError(); as message) {
+      <app-alert variant="error">{{ message }}</app-alert>
+    }
+
+    <div class="auth-form__actions">
+      <app-button type="submit" [loading]="saving()">Iniciar sesión</app-button>
+    </div>
+
+    <p class="auth-form__switch">
+      ¿No tienes cuenta?
+      <button type="button" class="auth-form__link" [disabled]="saving()" (click)="switchMode('register')">Regístrate</button>
+    </p>
+  </form>
+} @else {
+  <form class="auth-form" [formGroup]="registerForm" (ngSubmit)="onRegisterSubmit()">
+    <fieldset class="auth-form__fieldset" [disabled]="saving()">
+      <app-form-field label="Usuario" controlId="register-username" [required]="true" [error]="errorFor(registerForm.controls.username)">
+        <app-text-input inputId="register-username" formControlName="username" placeholder="Tu username" [maxLength]="50" [autofocus]="true" />
+      </app-form-field>
+
+      <app-form-field label="Correo" controlId="register-email" [required]="true" [error]="errorFor(registerForm.controls.email)">
+        <app-text-input inputId="register-email" type="email" formControlName="email" placeholder="user@gmail.com" [maxLength]="100" />
+      </app-form-field>
+
+      <app-form-field label="Contraseña" controlId="register-password" [required]="true" [error]="errorFor(registerForm.controls.password)">
+        <app-text-input inputId="register-password" type="password" formControlName="password" placeholder="Mínimo 8 caracteres" />
+      </app-form-field>
+
+      <app-form-field
+        label="Nickname del Leaderboard (opcional)"
+        controlId="register-nickname"
+        [error]="errorFor(registerForm.controls.nickname)"
+      >
+        <app-text-input inputId="register-nickname" formControlName="nickname" placeholder="Tu nickname" [maxLength]="50" />
+      </app-form-field>
+    </fieldset>
+
+    @if (serverError(); as message) {
+      <app-alert variant="error">{{ message }}</app-alert>
+    }
+
+    <div class="auth-form__actions">
+      <app-button type="submit" [loading]="saving()">Crear cuenta</app-button>
+    </div>
+
+    <p class="auth-form__switch">
+      ¿Ya tienes cuenta?
+      <button type="button" class="auth-form__link" [disabled]="saving()" (click)="switchMode('login')">Inicia sesión</button>
+    </p>
+  </form>
+}

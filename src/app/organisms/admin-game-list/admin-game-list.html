@@ -1,0 +1,60 @@
+@if (loading()) {
+  <div class="admin-list__state">
+    <app-spinner label="Cargando juegos" />
+  </div>
+} @else if (error(); as message) {
+  <div class="admin-list__state">
+    <app-alert variant="error">{{ message }}</app-alert>
+    <app-button (clicked)="retryRequested.emit()">Reintentar</app-button>
+  </div>
+} @else if (games().length === 0) {
+  <p class="admin-list__state">No hay juegos registrados en la plataforma</p>
+} @else {
+  <div class="admin-list__scroll">
+    <table class="admin-list__table">
+      <thead>
+        <tr>
+          <th>Juego</th>
+          <th>Propietario</th>
+          <th>Estado</th>
+          <th>Acciones</th>
+        </tr>
+      </thead>
+      <tbody>
+        @for (game of games(); track game.id) {
+          <tr>
+            <td>
+              <span class="admin-list__title">{{ game.title }}</span>
+              @if (game.genre || game.version) {
+                <span class="admin-list__meta">
+                  @if (game.genre) {
+                    {{ game.genre }}
+                  }
+                  @if (game.version) {
+                    v{{ game.version }}
+                  }
+                </span>
+              }
+            </td>
+            <td>{{ game.ownerUsername ?? 'Sin propietario' }}</td>
+            <td>
+              <app-badge [variant]="game.active ? 'success' : 'danger'">
+                {{ game.active ? 'Habilitado' : 'Inhabilitado' }}
+              </app-badge>
+            </td>
+            <td>
+              <div class="admin-list__actions">
+                <app-button variant="secondary" size="sm" [disabled]="busy()" (clicked)="toggleRequested.emit(game)">
+                  {{ game.active ? 'Deshabilitar' : 'Habilitar' }}
+                </app-button>
+                <app-button variant="danger" size="sm" [disabled]="busy()" (clicked)="deleteRequested.emit(game)">
+                  Eliminar
+                </app-button>
+              </div>
+            </td>
+          </tr>
+        }
+      </tbody>
+    </table>
+  </div>
+}

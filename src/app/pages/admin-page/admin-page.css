@@ -1,0 +1,8 @@
+app-alert {
+  margin-bottom: 20px;
+}
+
+.admin-page__tabs {
+  display: flex;
+  gap: 10px;
+}
